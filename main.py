@@ -14,6 +14,9 @@ updater = Updater(os.getenv('TELEGRAM_API_TOKEN'),use_context=True)
 def start(update: Update, context: CallbackContext):
     update.message.reply_text("Welcome to my bot")
 
+def download(update: Update, context: CallbackContext):
+    update.message.reply_text("Enter the youtube link")
+
 def unknown_text(update: Update, context: CallbackContext):
     update.message.reply_text(
         "Sorry I can't recognize you , you said '%s'" % update.message.text)
