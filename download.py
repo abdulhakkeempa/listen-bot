@@ -14,7 +14,7 @@ def youtube2mp3 (url,outdir):
     new_file = Path(f'{base}.mp3')
     print(new_file)
     os.rename(out_file, new_file)
-    log = open("log.txt", "a")
+    log = open("logs/log.txt", "a")
     log.write(str(yt.length)+":")
     log.write(str(time.time() - start_time))
     log.close()
