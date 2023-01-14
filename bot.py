@@ -19,7 +19,7 @@ def send_welcome(message):
   username = message.from_user.first_name
   bot.reply_to(message, f"""\
   Hi {username}, I am Chill Here Bot.
-  I am here to echo your kind words back to you. Just say anything nice and I'll say the exact same thing to you!\
+  I am here to help you to convert youtube videos to mp3 without installing any application.\
   """)
 
 @bot.message_handler(commands=['download'])
