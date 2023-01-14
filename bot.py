@@ -27,23 +27,32 @@ def send_welcome(message):
   """)
 
 
-def gen_markup():
-    markup = InlineKeyboardMarkup()
-    markup.row_width = 2
-    markup.add(InlineKeyboardButton("Youtube to MP3", callback_data="cb_yes"),
-                               InlineKeyboardButton("Quit", callback_data="cb_no"))
-    return markup
-
-@bot.callback_query_handler(func=lambda call: True)
-def callback_query(call):
-    if call.data == "cb_yes":
-        bot.answer_callback_query(call.id, "Answer is Yes")
-    elif call.data == "cb_no":
-        bot.answer_callback_query(call.id, "Answer is No")
-
-@bot.message_handler(commands=['help'])
-def message_handler(message):
-    bot.send_message(message.chat.id,"Please choose the option", reply_markup=gen_markup())
+@bot.message_handler(commands=['download'])
+def start_download(id):
+  bot.reply_to(id,"Please provide the youtube link")
 
 
 bot.infinity_polling()
+
+
+# def gen_markup():
+#     markup = InlineKeyboardMarkup()
+#     markup.row_width = 2
+#     markup.add(InlineKeyboardButton("Youtube to MP3", callback_data="download"),
+#                                InlineKeyboardButton("Quit", callback_data="cb_no"))
+#     return markup
+
+# @bot.callback_query_handler(func=lambda call: True)
+# def callback_query(call):
+#     if call.data == "download":
+#         # start_download(call.id)
+#         print(call.id)
+#         bot.answer_callback_query(call.id, text='Command executed')
+#     elif call.data == "cb_no":
+#         bot.answer_callback_query(call.id, "Answer is No")
+
+# @bot.message_handler(commands=['help'])
+# def message_handler(message):
+#     print(message.chat.id)
+#     bot.send_message(message.chat.id,"Please choose the option", reply_markup=gen_markup())
+
