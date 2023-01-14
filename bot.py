@@ -1,11 +1,7 @@
-#!/usr/bin/python
-
-# This is a simple echo bot using the decorator mechanism.
-# It echoes any incoming text messages.
-
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from dotenv import load_dotenv
+from download import youtube2mp3
 import os
 
 
@@ -26,11 +22,19 @@ def send_welcome(message):
   I am here to echo your kind words back to you. Just say anything nice and I'll say the exact same thing to you!\
   """)
 
-
 @bot.message_handler(commands=['download'])
-def start_download(id):
-  bot.reply_to(id,"Please provide the youtube link")
+def start_download(message):
+  text = "Please provide the youtube link of the video"
+  sent_msg = bot.send_message(message.chat.id, text, parse_mode="Markdown")
+  bot.register_next_step_handler(sent_msg, day_handler)
 
+def day_handler(message):
+  youtube_url = message.text
+  bot.send_message(message.chat.id,"Your request is being processed please wait for some time")
+  x = youtube2mp3(youtube_url,"assets")
+  bot.send_message(message.chat.id,"Your file is ready to be downloaded 🚀")
+  bot.send_audio(chat_id=message.chat.id, audio=open(x, 'rb'))
+  os.remove(x)
 
 bot.infinity_polling()
 
