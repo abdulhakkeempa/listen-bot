@@ -3,6 +3,7 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from dotenv import load_dotenv
 from download import youtube2mp3
 import os
+import json
 
 
 #loading env variables
@@ -34,29 +35,22 @@ def day_handler(message):
   x = youtube2mp3(youtube_url,"assets")
   bot.send_message(message.chat.id,"Your file is ready to be downloaded 🚀")
   bot.send_audio(chat_id=message.chat.id, audio=open(x, 'rb'))
-  os.remove(x)
+  os.remove(x) #deletes the downloaded file from server.
+
+
+def checkUserLastMessage(userId):
+  """Check for the users last message time"""
+  try:
+    data = open('data/data.json')
+    data = json.load(data)
+    filter(lambda user: user['id'] == userId, data)
+    
+  except:
+    print("Something went wrong")
+  else:
+    print("Nothing went wrong")
+
+
 
 bot.infinity_polling()
-
-
-# def gen_markup():
-#     markup = InlineKeyboardMarkup()
-#     markup.row_width = 2
-#     markup.add(InlineKeyboardButton("Youtube to MP3", callback_data="download"),
-#                                InlineKeyboardButton("Quit", callback_data="cb_no"))
-#     return markup
-
-# @bot.callback_query_handler(func=lambda call: True)
-# def callback_query(call):
-#     if call.data == "download":
-#         # start_download(call.id)
-#         print(call.id)
-#         bot.answer_callback_query(call.id, text='Command executed')
-#     elif call.data == "cb_no":
-#         bot.answer_callback_query(call.id, "Answer is No")
-
-# @bot.message_handler(commands=['help'])
-# def message_handler(message):
-#     print(message.chat.id)
-#     bot.send_message(message.chat.id,"Please choose the option", reply_markup=gen_markup())
 
